@@ -1,4 +1,4 @@
-// Vespertine112 Build - Corne v3
+// Vespertine112 Build - Corne v3.
 
 #include QMK_KEYBOARD_H
 #include <stdio.h>
