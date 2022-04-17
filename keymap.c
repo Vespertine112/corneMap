@@ -1,5 +1,6 @@
 // Vespertine112 Build - Corne v3. Refernce for macro docs: https://docs.qmk.fm/#/feature_macros?id=using-macros-in-c-keymaps
 // DONT EVER USE sprinf/snprintf for oleds, pulls way too much size.
+// Implement Ocean Dream from here: https://github.com/qmk/qmk_firmware/pull/12477/files#diff-7552aeefc522c27a6ec12517d40b91eaadc9a8227169d4def9df4a9fc9b1833f
 
 #include QMK_KEYBOARD_H
 #include <stdio.h>
