@@ -17,6 +17,9 @@
 #define NO_ACTION_FUNCTION
 #define NO_ACTION_ONESHOT
 
+// Kill the lights on sleep
+#define RGBLIGHT_SLEEP
+
 #ifdef RGBLIGHT_ENABLE
     // #define RGBLIGHT_EFFECT_BREATHING
     // #define RGBLIGHT_EFFECT_RAINBOW_MOOD
