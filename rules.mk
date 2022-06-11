@@ -1,5 +1,5 @@
 # Bootloader selection
-BOOTLOADER = atmel-dfu
+# BOOTLOADER = atmel-dfu
 
 MOUSEKEY_ENABLE = no    # Mouse keys
 RGBLIGHT_ENABLE = yes    # Enable WS2812 RGB underlight.
