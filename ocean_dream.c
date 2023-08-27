@@ -506,8 +506,9 @@ void render_stars(void) {
     int current_sleep_time = timer_elapsed32(starry_night_anim_sleep);
 
     // Reset the animation timer if typing
-    if (current_wpm > 0 && current_sleep_time < OLED_TIMEOUT) {
+    if (current_wpm > 0) {
         starry_night_anim_sleep = timer_read32();
+        current_sleep_time = timer_read32();
     }
     
     // animation timer
