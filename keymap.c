@@ -36,9 +36,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BACKSPACE,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F4,                        XXXXXXX, KC_LEFT,   KC_UP,KC_DOWN, KC_RIGHT, KC_DELETE,
+      KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F4,                        XXXXXXX, KC_LEFT, KC_UP, KC_DOWN, KC_RIGHT, KC_DELETE,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_BTN1, KC_MS_L, KC_MS_U, KC_MS_D, KC_MS_R, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI, _______,  KC_SPC,     KC_ENT,   MO(3), KC_RALT
                                       //`--------------------------'  `--------------------------'
@@ -62,9 +62,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         KC_PWR, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_SLEP,                      XXXXXXX, XXXXXXX, KC_MEDIA_NEXT_TRACK, KC_MEDIA_PREV_TRACK, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, mov_left, mov_right,   KC_WAKE,                      KC_MPLY, KC_VOLU, KC_VOLD, tog_audio,      XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, mov_left, mov_right,   KC_WAKE,                KC_MPLY, KC_VOLU, KC_VOLD, tog_audio, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,
+      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      RGB_HUI, RGB_VAI, RGB_VAD, RGB_SAI, RGB_MOD, RGB_TOG,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI, TG(4),  KC_SPC,     KC_ENT, KC_TRNS, KC_RALT
                                       //`--------------------------'  `--------------------------'
@@ -89,7 +89,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return OLED_ROTATION_270;
 }
-static const char PROGMEM windows_logo[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xbc, 0xbc, 0xbe, 0xbe, 0x00, 0xbe, 0xbe, 0xbf, 0xbf, 0xbf, 0xbf, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x07, 0x07, 0x0f, 0x0f, 0x00, 0x0f, 0x0f, 0x1f, 0x1f, 0x1f, 0x1f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
+static const char PROGMEM initials_logo[] = {
+    0,  0,  2,254,254,198,198,198,198,198,238,124,  0,  0,  0,  0,  0,254,254,240,192,128,128,128,192,240,254,254,  0,  0,  0,  0,  0,  0, 64,127,127, 96, 96, 96, 96, 96,113, 63,  0,  0,  0,  0,  0,127,127, 15,  3,  1,  1,  1,  3, 15,127,127,  0,  0,  0,  0,
+};
 
 #define L_BASE 0
 #define L_LOWER 2
@@ -263,28 +266,28 @@ static void render_luna(int LUNA_X, int LUNA_Y) {
 static void print_status_narrow(void) {
     /* Print current mode */
     oled_set_cursor(0, 0);
-    oled_write_raw_P(windows_logo, sizeof(windows_logo));
+    oled_write_raw_P(initials_logo, sizeof(initials_logo));
 
     oled_set_cursor(0, 5);
 
     /* Print current layer */
-    oled_write("LAYER", false);
+    oled_write("LAYER:", false);
     oled_set_cursor(0, 6);
     switch (get_highest_layer(layer_state)) {
         case 0:
-            oled_write("BASE", false);
+            oled_write(">BASE", false);
             break;
         case 1:
-            oled_write("NAV ", false);
+            oled_write(">NAV ", false);
             break;
         case 2:
-            oled_write("SYM ", false);
+            oled_write(">SYM ", false);
             break;
         case 3:
-            oled_write("CTRL", false);
+            oled_write(">CTRL", false);
             break;
         case 4:
-            oled_write("GAME", false);
+            oled_write(">GAME", false);
             break;
         default:
             oled_write("????", false);
