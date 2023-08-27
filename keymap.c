@@ -148,8 +148,7 @@ int   current_wpm = 0;
 led_t led_usb_state;
 
 bool isSneaking = false;
-bool isJumping  = false;
-bool showedJump = true;
+bool isJumping  = false; //removed for size lol
 
 /* logic */
 static void render_luna(int LUNA_X, int LUNA_Y) {
@@ -205,22 +204,7 @@ static void render_luna(int LUNA_X, int LUNA_Y) {
 
     /* animation */
     void animate_luna(void) {
-        /* jump */
-        if (isJumping || !showedJump) {
-            /* clear */
-            oled_set_cursor(LUNA_X, LUNA_Y + 2);
-            oled_write("     ", false);
-
-            oled_set_cursor(LUNA_X, LUNA_Y - 1);
-
-            showedJump = true;
-        } else {
-            /* clear */
-            oled_set_cursor(LUNA_X, LUNA_Y - 1);
-            oled_write("     ", false);
-
-            oled_set_cursor(LUNA_X, LUNA_Y);
-        }
+        oled_set_cursor(LUNA_X, LUNA_Y);
 
         /* switch frame */
         current_frame = (current_frame + 1) % 2;
@@ -355,7 +339,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING(SS_LWIN(SS_LCTL(SS_TAP(X_LEFT))));
             } 
             break;
-                    /* KEYBOARD PET STATUS START */
         case KC_LCTL:
         case KC_RCTL:
         #ifdef OCEAN_DREAM_ENABLE
@@ -368,14 +351,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
         case KC_SPC:
-            if (record->event.pressed) {
-                isJumping  = true;
-                showedJump = false;
-            } else {
-                isJumping = false;
-            }
-            break;
-            /* KEYBOARD PET STATUS END */
         }
   return true;
 }

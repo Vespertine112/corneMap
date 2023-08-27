@@ -24,14 +24,14 @@
  */
 #define ENABLE_MOON            // Uses 182 bytes
 #define ENABLE_WAVE            // Uses 844 bytes
-// #define ENABLE_SHOOTING_STARS  // Uses 872 bytes
+#define ENABLE_SHOOTING_STARS  // Uses 872 bytes
 #define ENABLE_ISLAND
 #define ENABLE_STARS  // Uses 606 bytes
 
 /**
  * Global Settings
  */
-#define STARRY_NIGHT_ANIM_FRAME_DURATION 30  // how long each frame lasts in ms
+#define STARRY_NIGHT_ANIM_FRAME_DURATION 20  // how long each frame lasts in ms
 #define NUMBER_OF_FRAMES 20                  // Self explanatory. Probably shouldn't touch this, not sure how stuff will work if it's changed. If changed should be multiple of 1, 2, 3, 4, and 5
 #define WIDTH OLED_DISPLAY_HEIGHT            // for vertical displays
 #define HEIGHT OLED_DISPLAY_WIDTH            // for vertical displays
@@ -41,7 +41,7 @@
  */
 #define MOON_LINE 4    // the line you want the moon to appear at
 #define MOON_COLUMN 4  // the column you want the moon to appear at
-//#define STATIC_MOON  // uncomment this to make the moon a static image, no animation
+#define STATIC_MOON  // uncomment this to make the moon a static image, no animation
 #ifndef STATIC_MOON
 #    define ANIMATE_MOON_EVERY_N_FRAMES 100  // animate the moon every n frames
 #endif

@@ -502,54 +502,55 @@ static void animate_shooting_stars(void) {
  * Calls all different animations at different rates
  */
 void render_stars(void) {
-    //    // animation timer
-    if (timer_elapsed32(starry_night_anim_timer) > STARRY_NIGHT_ANIM_FRAME_DURATION) {
+    current_wpm = get_current_wpm();
+    int current_sleep_time = timer_elapsed32(starry_night_anim_sleep);
+
+    // Reset the animation timer if typing
+    if (current_wpm > 0 && current_sleep_time < OLED_TIMEOUT) {
+        starry_night_anim_sleep = timer_read32();
+    }
+    
+    // animation timer
+    if ((timer_elapsed32(starry_night_anim_timer) > STARRY_NIGHT_ANIM_FRAME_DURATION ) && (current_sleep_time < OLED_TIMEOUT)) {
         starry_night_anim_timer = timer_read32();
-        current_wpm             = get_current_wpm();
 
-#ifdef ENABLE_ISLAND
-        animate_island();
-#endif
+        #ifdef ENABLE_ISLAND
+            animate_island();
+        #endif
 
-#ifdef ENABLE_SHOOTING_STARS
-        if (animation_counter % SHOOTING_STAR_ANIMATION_MODULATOR == 0) {
-            animate_shooting_stars();
-        }
-#endif
+        #ifdef ENABLE_SHOOTING_STARS
+            if (animation_counter % SHOOTING_STAR_ANIMATION_MODULATOR == 0) {
+                animate_shooting_stars();
+            }
+        #endif
 
-#ifdef ENABLE_STARS
-        // TODO offsetting the star animation from the wave animation would look better,
-        // but if I do that, then the stars appear in the water because
-        // the ocean animation has to wait a bunch of frames to overwrite it.
-        // Possible solutions:
-        // 1. Only draw stars to the top of the island/ocean.
-        // 2. Draw ocean every frame, only move ocean on frames matching modulus
-        // Problems:
-        // 1. What if someone wants to move the island up a bit, or they want to have the stars reflect in the water?
-        // 2. More cpu intensive. And I'm already running out of cpu as it is...
-        if (animation_counter % STAR_ANIMATION_MODULATOR == 0) {
-            animate_stars();
-        }
-#endif
+        #ifdef ENABLE_STARS
+            // TODO offsetting the star animation from the wave animation would look better,
+            // but if I do that, then the stars appear in the water because
+            // the ocean animation has to wait a bunch of frames to overwrite it.
+            // Possible solutions:
+            // 1. Only draw stars to the top of the island/ocean.
+            // 2. Draw ocean every frame, only move ocean on frames matching modulus
+            // Problems:
+            // 1. What if someone wants to move the island up a bit, or they want to have the stars reflect in the water?
+            // 2. More cpu intensive. And I'm already running out of cpu as it is...
+            if (animation_counter % STAR_ANIMATION_MODULATOR == 0) {
+                animate_stars();
+            }
+        #endif
 
-#ifdef ENABLE_WAVE
-        if (animation_counter % OCEAN_ANIMATION_MODULATOR == 0) {
-            animate_waves();
-        }
-#endif
+        #ifdef ENABLE_WAVE
+            if (animation_counter % OCEAN_ANIMATION_MODULATOR == 0) {
+                animate_waves();
+            }
+        #endif
 
-#ifdef ENABLE_MOON
-        draw_moon();
-#endif
+        #ifdef ENABLE_MOON
+            draw_moon();
+        #endif
 
         animation_counter = increment_counter(animation_counter, NUMBER_OF_FRAMES);
-    }
+    }    
 
-    // this fixes the screen on and off bug
-    // if (current_wpm > 0) {
-    //     oled_on();
-    //     starry_night_anim_sleep = timer_read32();
-    // } else if (timer_elapsed32(starry_night_anim_sleep) > OLED_TIMEOUT) {
-    //     oled_off();
-    // }
+
 }

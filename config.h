@@ -34,4 +34,13 @@
 #define MOUSEKEY_MAX_SPEED 4
 #define MOUSEKEY_TIME_TO_MAX 50
 
+#define OLED_TIMEOUT 10000
+#define OLED_UPDATE_INTERVAL 30
+// #define OLED_FADE_OUT 
+// #define OLED_FADE_OUT_INTERVAL 8
+
+#define WPM_UNFILTERED
+#define WPM_LAUNCH_CONTROL
+#define SPLIT_WPM_ENABLE
+
 #define OLED_FONT_H "keyboards/crkbd/lib/glcdfont.c"
